@@ -3,16 +3,13 @@ import 'package:provider/provider.dart';
 
 import 'counter_provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
   Widget build(BuildContext context) {
+    final counter=Provider.of<CounterProvider>(context);
+    final count=counter.countVal;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -26,30 +23,26 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Consumer<CounterProvider>(builder: (context, value, child) {
-              return Text('Value ${value.countVal.toString()}');
-            }),
+        Text('Value ${count.toString()}'),
             SizedBox(height: 60),
-            Consumer<CounterProvider>(builder: (context, value, child) {
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  FloatingActionButton(
-                      onPressed: () {
-                        value.add();
-                      },
-                      child: Icon(Icons.add)),
-                  SizedBox(width: 80),
-                  FloatingActionButton(
-                    onPressed: () {
-                      value.subtract();
-                    },
-                    child: Icon(Icons.remove),
-                  )
-                ],
-              );
-            })
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FloatingActionButton(
+              onPressed: () {
+                counter.add();
+              },
+              child: Icon(Icons.add)),
+          SizedBox(width: 80),
+          FloatingActionButton(
+            onPressed: () {
+              counter.subtract();
+            },
+            child: Icon(Icons.remove),
+          )
+        ],
+      )
           ],
         ),
       ),
